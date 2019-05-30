@@ -1,0 +1,8 @@
+//function ReadMe (){
+"Barev es uxarkel em verjnakan arajadranqy 
+LifeInMatrix moow in grass - i mej gishatichy xoti vrayov ancnum e aranc xoty vnaselu
+LifeInMatrix  - i mej gishatichy xoti vrayov ancnum e ayn jnjelov
+LifeInMatrix  no moow in grass - i mej gishatichy xoti vrayov chi ancnum
+dranic baci uxarkel em xax 2 hoganoc "PingPong" vorpes havelyal ashxatanq"
+//}
+//ReadMe();

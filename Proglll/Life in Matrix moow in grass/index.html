@@ -1,0 +1,141 @@
+<!-- <html>
+   <head>
+        <script src="/socket.io/socket.io.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
+       <script src="script.js"></script>
+	   <style>
+        div{
+            display:inline-block;
+        }
+    
+    </style>
+   </head>
+   <body style="background-color:rgb(150,255,0);">
+       
+    <div style="background-color:green; width:15px; height:15px"></div>Խոտ
+    <div style="background-color:orange; width:15px; height:15px"></div>Խոտակեր
+    <div style="background-color:yellow; width:15px; height:15px"></div>հիվանդ Խոտակեր
+	<div style="background-color:red; width:15px; height:15px"></div>Գիշատիչ
+	<div style="background-color:aqua; width:15px; height:15px"></div>Հիվանդ խոտ
+    <div style="background-color:#0cacac; width:15px; height:15px"></div>թույլ հիվանդ խոտ
+    <div style="background-color:brown; width:15px; height:15px"></div>TimeKeeper
+    <div style="background-color:#acacac; width:15px; height:15px"></div>Դատարկ տարածք<br><br>
+	
+	<h2>The Button Restarts The Life</h2>
+<p>FramRate: <input type="range" id="FR" min="1" max="60" id="size"  value="10"
+    step="0.5" oninput="frameRateing()" >
+</p>  
+     
+<button type="button" onclick="Restart(matrix,tesakner)">Restart</button>
+<button type="button" onclick="killgreen(matrix,1)">KillGrass</button>
+<button type="button" onclick="Kill(matrix,2)">KillVirus</button>
+
+   </body>
+</html> -->
+<html>
+
+<head>
+    <meta charset="utf8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+    <style>
+        
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        div {
+            display: inline-block;
+        }
+
+        h1 {
+            padding: 20px;
+            text-align: center;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif !important;
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <h1>Ծրագրավորում III Երևան</h1>
+            </tr>
+            <tr>
+                <h1>Գնել Սեդրակյան</h1>
+            </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Գույն</th>
+                <th scope="col">Նկարագրություն</th>
+                <th scope="col">խաղում կա</th>
+                <th scope="col">եղանակ</th>
+                <td id="season"></td>
+            </tr>
+        </thead>
+   
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td scope="row" style="background-color:green;"></td>
+                <td>Կանաչը խոտն է, որը բազմանում է N ցիկլը մեկ,մահանում է երբ նրան ուտում է խոտակերը, կամ նրան տրորում է գիշատիչը</td>
+                <td id="garssCount"></td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td scope="row" style="background-color:orange;"></td>
+                <td>Դեղինը խոտակերն է, որը բազմանում է N հատ խոտ ուտելուց հետո և մահանում է N հատ չուտելուց հետո, կամ
+                    երբ նրան ուտում է գիշատիչը, կամ երբ նրան այրում է կրակը:</td>
+                <td id="garssEaterCount"></td>
+            </tr>
+            <tr>
+                    <th scope="row">3</th>
+                    <td scope="row" style="background-color:red;"></td>
+                    <td>Կարմիրը Գիշատիչն է, որը բազմանում է N հատ Խոտակեր ուտելուց հետո և մահանում է N հատ չուտելուց հետո:</td>
+                    <td id="gishatichCount"></td>
+            </tr>
+            <tr>
+                    <th scope="row">4</th>
+                    <td scope="row" style="background-color:aqua;"></td>
+                    <td>Սա հիվանդ խոտ է, որը բազմանում է N հատ օր հետո, առօղջ խոտերը վարաքելով ավելի թույլ հիվանդ խոտով,իսկ եթե առուղյ ղոտ չկա ավելի ուԺեղ է վարակում ավելի թույլ հիվանդ խոտը։Մահանում երբ նրան ուտում է խոտակերը, կամ բուժում ե Ժամանակի Պահապանը:</td>
+                    <td id="virusCount"></td>
+            </tr>
+            <tr>
+                    <th scope="row">5</th>
+                    <td scope="row" style="background-color:#0cacac;"></td>
+                    <td>Սա ավելի թույլ հիվանդ խոտ է, որը բազմանում է N հատ օր հետո,միայն առօղջ խոտ ստեղծելով որը հետագաըում վարաքելու է հիվանդ խոտը  և մահանում երբ նրան ուտում է խոտակերը, կամ բուժում ե Ժամանակի Պահապանը:</td>
+                    <td id="MinivirusCount"></td>
+            </tr>
+            <tr>
+                <th scope="row">6</th>
+                <td scope="row" style="background-color:#700060;"></td>
+                <td>Նա չար կախարդ է, որը ցանկանում է ասհխարը վարաքել ստեղծելուվ վարաք որը հիվանդացնում է խոտը,վարաքում է իր կողքի բոլոր խուտերը,անմահ է:</td>
+                <td id="ՈիտցհCount"></td>
+            </tr>
+            <tr>
+                <th scope="row">7</th>
+                <td scope="row" style="background-color:brown;"></td>
+                <td>Նա Ժամանակի Պահապանն է, որը պահպանում է ասհխարում հավասարակսհռությունը ստեղծելուվ այն կերպարներին որոնց թիվը խիստ նվազել է կամ ընդհանրապես զրոյացել,բւյում է իր կողքի բոլոր հիվանդ խուտերը,պայքարում է յամանակի պահապանի հետ ստեղծելով հավասարակսհռություն,անմահ է:</td>
+                <td id="TimeKeeperCount"></td>
+            </tr>
+            <tr>
+                    <th scope="row">8</th>
+                    <td scope="row" style="background-color:#acacac;"></td>
+                    <td>Սա դատարկ վանդակ է:խաղի ամենակարեվոր կերպարներից մեկը,չնաըած նրան որ կերպարը ոչինչ չի կարող անել,առանց սրա վոչինչ չեր ստացվի,բոլոր կենդանի որգանիզմները քայլում,բազմանում են դատարկ վանդակի վրա։</td>
+                    <td id="EmptyCount"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+
+</html>
